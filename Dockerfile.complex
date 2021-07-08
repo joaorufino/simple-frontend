@@ -6,9 +6,9 @@ RUN npm run lint
 RUN npm install && ng build --prod --aot --no-progress
 
 FROM trion/ng-cli-karma:12.1.1 as test
-COPY --from=build /app/* .
+COPY --from=build /app .
 RUN ng test --watch=false --progress=false
 
 FROM alpine:3.10
 WORKDIR static
-COPY --from=ANGULAR_BUILD /app/dist/app/* .
+COPY --from=build /app/dist/app/* /static/
